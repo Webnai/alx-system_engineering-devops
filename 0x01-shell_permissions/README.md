@@ -1,1 +1,1 @@
-Script to switch user to betty
+Script for shell permission commands
