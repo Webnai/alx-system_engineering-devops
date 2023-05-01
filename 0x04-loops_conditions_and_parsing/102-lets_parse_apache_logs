@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#This script displays the IP of visitors with the HTTP status
+awk '{print $1,$9}' apache-access.log
