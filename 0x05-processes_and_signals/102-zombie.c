@@ -4,38 +4,27 @@
 
 /**
  * infinite_while - creates an infinite loop to make the program hang
- * @duration: the duration of the infinite loop in seconds
  * Return: always 0
  */
-int infinite_while(int duration)
+int infinite_while(void)
 {
 	while (1)
 	{
-		sleep(duration);
+		sleep(1);
 	}
 	return (0);
 }
 
 /**
- * main - creates zombie processes
- * @num_zombies: the number of zombie processes to create
- * @loop_duration: the duration of the infinite loop in seconds
+ * main - creates 5 zombie processes
  * Return: always 0
  */
-int main(int argc, char **argv)
+int main(void)
 {
-	if (argc != 3)
-	{
-		printf("Usage: %s <num_zombies> <loop_duration>\n", argv[0]);
-		return (1);
-	}
-
 	int i;
 	pid_t zombie;
-	int num_zombies = atoi(argv[1]);
-	int loop_duration = atoi(argv[2]);
 
-	for (i = 0; i < num_zombies; i++)
+	for (i = 0; i < 5; i++)
 	{
 		zombie = fork();
 		if (!zombie)
@@ -43,6 +32,6 @@ int main(int argc, char **argv)
 		printf("Zombie process created, PID: %d\n", zombie);
 	}
 
-	infinite_while(loop_duration);
+	infinite_while();
 	return (0);
 }
