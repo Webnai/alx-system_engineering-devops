@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-#This script is giving information about the files in the currfile="school"
+# This script is displaying "Best School" 10 times
+file="school"
 if [ -e "$file" ]
 then
 	echo "school file exists"
