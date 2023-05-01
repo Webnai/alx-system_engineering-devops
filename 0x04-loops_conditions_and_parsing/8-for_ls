@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #This script is displaying the content of the current directotry
-
+#In a list format
+#only the name after the first character is displayed
 for file in *; do
-    if [[ -f "$file" && ! "$file" == .* && "$file" == -* ]]; then
-        echo "${file#*-}"
+    if [ -f "$file" ] && [[ $file != .* ]] && [[ $file =~ ^[^-]*-(.*)$ ]]; then
+        echo "${BASH_REMATCH[1]}"
     fi
 done
-
