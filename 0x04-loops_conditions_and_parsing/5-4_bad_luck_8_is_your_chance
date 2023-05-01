@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#This script is displaying "Good luck", "Bad luck" and "Best school" in a loop
 
 counter=1
 while [ $counter -le 10 ]
