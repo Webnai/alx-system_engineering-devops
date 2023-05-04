@@ -1,2 +1,3 @@
-#!/usr/bin/env ruby
-#puts ARGV[0].scan(/^h.n$/).join
+#!/usr/bin/env rub
+#this script matches a string from beginning to end
+puts ARGV[0].scan(/^h.n$/).join
