@@ -1,40 +1,18 @@
 #!/usr/bin/python3
-"""to do list information about an employee export to csv """
-
+"""Exports to-do list information for a given employee ID to CSV format."""
 import csv
 import requests
 import sys
 
-base = 'https://jsonplaceholder.typicode.com/'
-
-
-def tasks_employee():
-    """get tasks of an employee"""
-    if len(sys.argv) < 2:
-        print("Missing id")
-        return
-    try:
-        id_e = int(sys.argv[1])
-    except ValueError:
-        print("id must be an integer")
-        return
-    req = requests.get(base + 'users/' + str(id_e))
-    user = req.json()
-    req2 = requests.get(base + 'todos/')
-    todos = req2.json()
-    lista = []
-    status = []
-
-    for todo in todos:
-        if todo.get('userId') == id_e:
-            lista.append(todo)
-    with open(str(id_e) + '.csv', 'w') as f:
-        wr = csv.writer(f, lineterminator='\n', quoting=csv.QUOTE_ALL)
-        for todo in lista:
-            wr.writerow(['{}'.format(line) for line in (todo.get('userId'),
-                                                        user.get('username'),
-                                                        todo.get('completed'),
-                                                        todo.get('title'))])
-
 if __name__ == "__main__":
-    tasks_employee()
+    user_id = sys.argv[1]
+    url = "https://jsonplaceholder.typicode.com/"
+    user = requests.get(url + "users/{}".format(user_id)).json()
+    username = user.get("username")
+    todos = requests.get(url + "todos", params={"userId": user_id}).json()
+
+    with open("{}.csv".format(user_id), "w", newline="") as csvfile:
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        [writer.writerow(
+            [user_id, username, t.get("completed"), t.get("title")]
+         ) for t in todos]
