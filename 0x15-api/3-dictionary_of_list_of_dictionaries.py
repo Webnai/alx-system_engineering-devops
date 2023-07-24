@@ -1,33 +1,18 @@
 #!/usr/bin/python3
-"""to do list information about an employee export to json """
-
+"""Exports to-do list information of all employees to JSON format."""
 import json
 import requests
-import sys
-
-base = 'https://jsonplaceholder.typicode.com/'
-
-
-def tasks_employee():
-    """get tasks of an employee"""
-    req = requests.get(base + 'users/')
-    users = req.json()
-    req2 = requests.get(base + 'todos/')
-    todos = req2.json()
-    all_data = {}
-    for user in users:
-        username = user.get('username')
-        user_todos = []
-        for todo in todos:
-            if todo.get('userId') == user.get('id'):
-                mydict = {}
-                mydict['username'] = username
-                mydict['task'] = todo.get('title')
-                mydict['completed'] = todo.get('completed')
-                user_todos.append(mydict)
-        all_data[str(user.get('id'))] = user_todos
-    with open('todo_all_employees.json', 'w') as f:
-        json.dump(all_data, f)
 
 if __name__ == "__main__":
-    tasks_employee()
+    url = "https://jsonplaceholder.typicode.com/"
+    users = requests.get(url + "users").json()
+
+    with open("todo_all_employees.json", "w") as jsonfile:
+        json.dump({
+            u.get("id"): [{
+                "task": t.get("title"),
+                "completed": t.get("completed"),
+                "username": u.get("username")
+            } for t in requests.get(url + "todos",
+                                    params={"userId": u.get("id")}).json()]
+            for u in users}, jsonfile)
